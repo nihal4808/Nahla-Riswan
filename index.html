@@ -304,38 +304,22 @@
                         Countdown</h3>
                 </div>
 
-                <div class="grid grid-cols-4 gap-4 md:gap-10 text-center">
+                <div class="grid grid-cols-4 gap-2 md:gap-8 text-center pt-8">
                     <div class="flex flex-col items-center justify-center">
-                        <div
-                            class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105">
-                            <span id="days" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
-                        </div>
-                        <span
-                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Days</span>
+                        <div id="days" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Days</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
-                            style="animation-delay: 0.2s">
-                            <span id="hours" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
-                        </div>
-                        <span
-                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Hours</span>
+                        <div id="hours" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Hours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
-                            style="animation-delay: 0.4s">
-                            <span id="minutes" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
-                        </div>
-                        <span
-                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Mins</span>
+                        <div id="minutes" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Mins</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
-                            style="animation-delay: 0.6s">
-                            <span id="seconds" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-gold-dark">00</span>
-                        </div>
-                        <span
-                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold uppercase font-medium">Secs</span>
+                        <div id="seconds" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold-dark uppercase font-semibold">Secs</span>
                     </div>
                 </div>
             </div>
@@ -500,13 +484,42 @@
 
         // --- 3. COUNTDOWN TIMER ---
         const targetDate = new Date("2026-07-25T11:30:00").getTime();
+
+        function createDigitCard(char, isSecs) {
+            const bgColor = isSecs ? "bg-gold-dark" : "bg-charcoal";
+            const textColor = isSecs ? "text-ivory" : "text-ivory";
+            const lineColor = isSecs ? "bg-ivory/30" : "bg-ivory/20";
+            
+            return `
+                <div class="relative w-8 h-12 md:w-16 md:h-24 rounded-lg flex items-center justify-center shadow-lg ${bgColor} ${textColor}">
+                    <!-- The string -->
+                    <div class="absolute bottom-full left-1/2 w-px h-6 md:h-10 bg-charcoal/30"></div>
+                    <!-- The hole -->
+                    <div class="absolute top-1 md:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ivory shadow-inner"></div>
+                    <!-- The split line -->
+                    <div class="absolute top-1/2 left-0 w-full h-[1px] md:h-[2px] ${lineColor} z-20"></div>
+                    <!-- The digit -->
+                    <span class="text-2xl md:text-6xl font-serif z-10">${char}</span>
+                </div>
+            `;
+        }
+
+        function updateDigitDisplay(id, number, isSecs = false) {
+            const str = number.toString().padStart(2, '0');
+            const el = document.getElementById(id);
+            if (el.dataset.val !== str) {
+                el.dataset.val = str;
+                el.innerHTML = str.split('').map(c => createDigitCard(c, isSecs)).join('');
+            }
+        }
+
         setInterval(() => {
             const distance = targetDate - new Date().getTime();
             if (distance < 0) return;
-            document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            updateDigitDisplay("days", Math.floor(distance / (1000 * 60 * 60 * 24)));
+            updateDigitDisplay("hours", Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            updateDigitDisplay("minutes", Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            updateDigitDisplay("seconds", Math.floor((distance % (1000 * 60)) / 1000), true);
         }, 1000);
 
         // --- 4. AWWWARDS-LEVEL UI INTERACTIONS ---
