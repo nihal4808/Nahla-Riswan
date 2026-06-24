@@ -227,10 +227,8 @@
         </div>
     </div>
 
-    <!-- YouTube API Audio Source -->
-    <div class="fixed -top-full -left-full w-px h-px opacity-0 pointer-events-none">
-        <div id="ytplayer"></div>
-    </div>
+    <!-- HTML5 Audio Source -->
+    <audio id="bgAudio" src="./public/ReelAudio-22598.mp3" loop preload="auto" autoplay></audio>
 
     <main id="mainContent"
         class="relative z-10 w-full min-h-screen flex flex-col items-center opacity-0 hidden transition-opacity duration-1000 overflow-hidden pt-24 pb-40">
@@ -420,35 +418,10 @@
     </main>
 
     <script>
-        // --- 1. YOUTUBE AUDIO BACKGROUND SYSTEM ---
-        let ytPlayer;
-        let isPlayerReady = false;
+        // --- 1. HTML5 AUDIO BACKGROUND SYSTEM ---
+        const bgAudio = document.getElementById('bgAudio');
+        bgAudio.volume = 0.45;
         let isMuted = false;
-        let isPlayPromisePending = false;
-
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('ytplayer', {
-                height: '10',
-                width: '10',
-                videoId: 'iCMiFhA9XdY',
-                playerVars: {
-                    'autoplay': 1, 'controls': 0, 'disablekb': 1, 'fs': 0, 'loop': 1, 'playlist': 'iCMiFhA9XdY', 'playsinline': 1
-                },
-                events: { 
-                    'onReady': () => { 
-                        isPlayerReady = true; 
-                        ytPlayer.setVolume(45); 
-                        ytPlayer.playVideo();
-                        document.getElementById('playIcon').className = "fa-solid fa-pause text-sm";
-                    } 
-                }
-            });
-        }
 
         // --- 2. INTERACTIVE GATEWAY REVEAL ---
         document.getElementById('openBtn').addEventListener('click', () => {
@@ -456,16 +429,10 @@
             const mainContent = document.getElementById('mainContent');
             const musicController = document.getElementById('musicController');
 
-            if (isPlayerReady && typeof ytPlayer.playVideo === 'function') {
-                isPlayPromisePending = true;
-                try {
-                    ytPlayer.unMute();
-                    ytPlayer.playVideo();
-                    fadeVolumeIn(45, 2500);
-                    document.getElementById('playIcon').className = "fa-solid fa-pause text-sm";
-                } catch (e) { }
-                setTimeout(() => { isPlayPromisePending = false; }, 500);
-            }
+            bgAudio.play().then(() => {
+                document.getElementById('playIcon').className = "fa-solid fa-pause text-sm";
+                fadeVolumeIn(0.45, 2500);
+            }).catch(e => console.log("Audio play failed:", e));
 
             gate.classList.add('gate-fade-out');
 
@@ -482,10 +449,11 @@
         function fadeVolumeIn(targetVol, duration) {
             let currentVol = 0;
             let step = targetVol / (duration / 50);
+            bgAudio.volume = 0;
             let interval = setInterval(() => {
-                if (currentVol < targetVol && ytPlayer) {
+                if (currentVol < targetVol) {
                     currentVol = Math.min(targetVol, currentVol + step);
-                    ytPlayer.setVolume(currentVol);
+                    bgAudio.volume = currentVol;
                 } else {
                     clearInterval(interval);
                 }
@@ -493,41 +461,34 @@
         }
 
         function changeVolume(value) {
-            if (isPlayerReady && ytPlayer) {
-                ytPlayer.setVolume(value);
-                const icon = document.getElementById('muteIcon');
-                icon.className = value == 0 ? "fa-solid fa-volume-xmark text-sm" : "fa-solid fa-volume-high text-sm";
-            }
+            bgAudio.volume = value / 100;
+            const icon = document.getElementById('muteIcon');
+            icon.className = value == 0 ? "fa-solid fa-volume-xmark text-sm" : "fa-solid fa-volume-high text-sm";
         }
 
         function togglePlay() {
-            if (!isPlayerReady || isPlayPromisePending) return;
-            const state = ytPlayer.getPlayerState();
             const icon = document.getElementById('playIcon');
-
-            if (state === YT.PlayerState.PLAYING) {
-                ytPlayer.pauseVideo();
+            if (!bgAudio.paused) {
+                bgAudio.pause();
                 icon.className = "fa-solid fa-play ml-0.5 text-sm";
             } else {
-                ytPlayer.playVideo();
+                bgAudio.play();
                 icon.className = "fa-solid fa-pause text-sm";
             }
         }
 
         function toggleMute() {
-            if (!isPlayerReady) return;
             isMuted = !isMuted;
             const icon = document.getElementById('muteIcon');
             const slider = document.getElementById('volumeSlider');
             if (isMuted) {
-                ytPlayer.mute();
+                bgAudio.muted = true;
                 icon.className = "fa-solid fa-volume-xmark text-sm";
                 slider.value = 0;
             } else {
-                ytPlayer.unMute();
+                bgAudio.muted = false;
                 icon.className = "fa-solid fa-volume-high text-sm";
-                slider.value = 45;
-                ytPlayer.setVolume(45);
+                slider.value = Math.round(bgAudio.volume * 100);
             }
         }
 
