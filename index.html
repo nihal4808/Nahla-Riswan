@@ -216,15 +216,19 @@
             <i id="playIcon" class="fa-solid fa-play ml-0.5 text-sm"></i>
         </button>
         <button id="muteBtn" onclick="toggleMute()"
-            class="w-6 h-6 flex items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors duration-500">
+            class="hidden md:flex w-6 h-6 items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors duration-500">
             <i id="muteIcon" class="fa-solid fa-volume-high text-sm"></i>
         </button>
         <input type="range" id="volumeSlider" min="0" max="100" value="45" oninput="changeVolume(this.value)"
-            class="w-20 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark transition-all duration-500">
-        <div class="h-5 w-[1px] bg-gold/30"></div>
+            class="hidden md:block w-20 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark transition-all duration-500">
+        <div class="hidden md:block h-5 w-[1px] bg-gold/30"></div>
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-music text-gold text-xs animate-bounce"></i>
         </div>
+        <button onclick="document.getElementById('musicController').style.display='none'"
+            class="ml-1 w-5 h-5 flex items-center justify-center text-charcoal/30 hover:text-charcoal/60 transition-colors duration-300" title="Hide">
+            <i class="fa-solid fa-times text-xs"></i>
+        </button>
     </div>
 
     <!-- HTML5 Audio Source -->
