@@ -4,14 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nahla & Riswan </title>
+    <title>Nahla & Riswan — Cinematic UI</title>
 
-    <!-- Google Fonts: Amiri (Arabic), Playfair Display (Serif headings), Great Vibes (Script), Montserrat (Clean sans) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -40,6 +38,9 @@
                         arabic: ['Amiri', 'serif'],
                         sans: ['Montserrat', 'sans-serif'],
                         script: ['Great Vibes', 'cursive'],
+                    },
+                    transitionTimingFunction: {
+                        'cinematic': 'cubic-bezier(0.16, 1, 0.3, 1)',
                     }
                 }
             }
@@ -54,9 +55,14 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        .tracking-editorial {
+            letter-spacing: 0.35em;
+        }
+
         /* Ambient glowing background gradients */
         .ambient-bg {
             background: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, rgba(250, 247, 242, 0) 60%);
+            will-change: transform;
         }
 
         /* 3D Glassmorphism Utilities */
@@ -66,14 +72,36 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow:
-                0 20px 40px rgba(168, 134, 71, 0.08),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-            transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: none;
+            box-shadow: 
+                0 10px 20px rgba(168, 134, 71, 0.04),
+                0 20px 40px rgba(168, 134, 71, 0.06),
+                0 40px 80px rgba(168, 134, 71, 0.08),
+                inset 1px 1px 1px rgba(255, 255, 255, 0.6),
+                inset -1px -1px 1px rgba(255, 255, 255, 0.1);
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        /* Subtle Noise Texture Overlay */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>');
+            mix-blend-mode: overlay;
+            opacity: 0.06;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .glass-card > * {
+            position: relative;
+            z-index: 10;
         }
 
         .gold-text-gradient {
@@ -91,17 +119,21 @@
             transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
+        /* Scroll Reveal Inertia */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Subtle floating animations */
         @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .animate-float {
@@ -118,22 +150,19 @@
             position: absolute;
             inset: -4px;
             border-radius: 50%;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #D4AF37;
-            border-radius: 4px;
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        
+        /* Magnetic utility wrapper */
+        .magnetic {
+            display: inline-block;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
     </style>
 </head>
@@ -141,38 +170,32 @@
 <body class="font-serif selection:bg-gold selection:text-white">
 
     <canvas id="particleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-60"></canvas>
-    <div class="fixed inset-0 pointer-events-none ambient-bg z-0"></div>
+    <div class="fixed inset-0 pointer-events-none ambient-bg z-0 h-[150vh]"></div>
 
-    <div id="gateScreen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-ivory backdrop-blur-sm transition-all duration-[1.5s]">
+    <div id="gateScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-ivory backdrop-blur-md transition-all duration-[1.5s]">
         <div class="perspective-container flex flex-col items-center">
             <!-- 3D Interactive Emblem -->
-            <button id="openBtn"
-                class="group relative w-32 h-32 rounded-full glass-card flex flex-col items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-500 preserve-3d">
-                <div
-                    class="absolute inset-0 rounded-full border border-gold/30 group-hover:border-gold transition-colors duration-500 shadow-[0_0_30px_rgba(212,175,55,0.2)]">
-                </div>
-                <h2 class="text-3xl font-script text-gold-dark transform translate-z-10">N & R</h2>
-            </button>
-            <p class="mt-8 text-[10px] font-sans tracking-[0.3em] text-gold-dark uppercase animate-pulse">Tap to Enter
-            </p>
+            <div class="magnetic">
+                <button id="openBtn" class="group relative w-32 h-32 rounded-full glass-card flex flex-col items-center justify-center cursor-pointer transition-transform duration-700 ease-cinematic preserve-3d">
+                    <div class="absolute inset-0 rounded-full border border-gold/30 group-hover:border-gold transition-colors duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)]"></div>
+                    <h2 class="text-3xl font-script text-gold-dark transform translate-z-10">N & R</h2>
+                </button>
+            </div>
+            <p class="mt-8 text-[10px] font-sans tracking-[0.3em] text-gold-dark uppercase animate-pulse">Tap to Enter</p>
         </div>
     </div>
 
-    <div id="musicController"
-        class="fixed bottom-6 right-6 z-40 flex items-center gap-3 glass-card px-4 py-2 rounded-full scale-0 transition-transform duration-1000 ease-out">
-        <button id="playPauseBtn" onclick="togglePlay()"
-            class="w-8 h-8 rounded-full bg-gradient-to-tr from-gold-dark to-gold text-white flex items-center justify-center shadow-md hover:shadow-lg transition-all">
-            <i id="playIcon" class="fa-solid fa-play ml-0.5 text-xs"></i>
+    <div id="musicController" class="fixed bottom-8 right-8 z-40 flex items-center gap-4 glass-card px-5 py-3 rounded-full scale-0 transition-transform duration-[1.2s] ease-cinematic magnetic">
+        <button id="playPauseBtn" onclick="togglePlay()" class="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-dark to-gold text-white flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-105">
+            <i id="playIcon" class="fa-solid fa-play ml-0.5 text-sm"></i>
         </button>
-        <button id="muteBtn" onclick="toggleMute()"
-            class="w-6 h-6 flex items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors">
-            <i id="muteIcon" class="fa-solid fa-volume-high text-xs"></i>
+        <button id="muteBtn" onclick="toggleMute()" class="w-6 h-6 flex items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors duration-500">
+            <i id="muteIcon" class="fa-solid fa-volume-high text-sm"></i>
         </button>
-        <input type="range" id="volumeSlider" min="0" max="100" value="45" oninput="changeVolume(this.value)" class="w-16 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark">
-        <div class="h-4 w-[1px] bg-gold/30"></div>
+        <input type="range" id="volumeSlider" min="0" max="100" value="45" oninput="changeVolume(this.value)" class="w-20 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark transition-all duration-500">
+        <div class="h-5 w-[1px] bg-gold/30"></div>
         <div class="flex items-center gap-2">
-            <i class="fa-solid fa-music text-gold text-[10px] animate-bounce"></i>
+            <i class="fa-solid fa-music text-gold text-xs animate-bounce"></i>
         </div>
     </div>
 
@@ -181,185 +204,152 @@
         <div id="ytplayer"></div>
     </div>
 
-    <main id="mainContent"
-        class="relative z-10 w-full min-h-screen flex flex-col items-center opacity-0 hidden transition-opacity duration-1000 overflow-hidden pt-20 pb-32">
+    <main id="mainContent" class="relative z-10 w-full min-h-screen flex flex-col items-center opacity-0 hidden transition-opacity duration-1000 overflow-hidden pt-24 pb-40">
 
         <!-- Hero Section -->
-        <section
-            class="w-full max-w-4xl px-6 flex flex-col items-center text-center perspective-container min-h-[80vh] justify-center">
+        <section class="w-full max-w-5xl px-6 flex flex-col items-center text-center perspective-container min-h-[90vh] justify-center reveal">
 
             <!-- Bismillah Calligraphy -->
-            <div class="mb-12 animate-float">
-                <p class="text-4xl md:text-5xl font-arabic text-gold-dark mb-4">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
-                <p class="text-[9px] font-sans tracking-[0.3em] text-charcoal/40 uppercase leading-relaxed">In the Name of Allah<br>The Most Gracious, The Most Merciful</p>
+            <div class="mb-16 animate-float">
+                <p class="font-arabic text-gold-dark mb-6 text-[clamp(2.5rem,6vw,4.5rem)]">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+                <p class="text-[clamp(9px,2vw,12px)] font-sans tracking-editorial text-charcoal/40 uppercase leading-loose">In the Name of Allah<br>The Most Gracious, The Most Merciful</p>
             </div>
             
-            <p class="text-xs md:text-sm font-sans tracking-[0.2em] text-charcoal/70 uppercase max-w-md mx-auto leading-relaxed mb-16">
+            <p class="text-[clamp(11px,2vw,14px)] font-sans tracking-[0.25em] text-charcoal/70 uppercase max-w-lg mx-auto leading-[2.5] mb-20">
                 Together with our families,<br>we request the honor of your presence<br>at our wedding celebration.
             </p>
 
             <!-- The Couple -->
-            <div class="relative w-full flex flex-col items-center justify-center mb-16">
-                <div
-                    class="absolute w-px h-32 bg-gradient-to-b from-transparent via-gold to-transparent -top-16 opacity-50">
-                </div>
+            <div class="relative w-full flex flex-col items-center justify-center mb-20">
+                <div class="absolute w-px h-40 bg-gradient-to-b from-transparent via-gold to-transparent -top-20 opacity-40"></div>
 
-                <h1 class="text-7xl md:text-9xl font-script gold-text-gradient drop-shadow-sm leading-none py-2">Nahla
-                </h1>
-                <span class="text-2xl font-serif italic text-gold/60 my-2">&</span>
-                <h1 class="text-7xl md:text-9xl font-script gold-text-gradient drop-shadow-sm leading-none py-2">Riswan
-                </h1>
+                <h1 class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">Nahla</h1>
+                <span class="text-3xl font-serif italic text-gold/60 my-4">&</span>
+                <h1 class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">Riswan</h1>
             </div>
 
             <div class="mt-16 text-gold/40 animate-bounce">
-                <i class="fa-solid fa-chevron-down text-lg"></i>
+                <i class="fa-solid fa-chevron-down text-xl"></i>
             </div>
         </section>
 
         <!-- Invitation Message Section -->
-        <section class="w-full max-w-2xl px-6 my-20 flex flex-col items-center text-center perspective-container">
-            <div class="glass-card rounded-2xl p-10 flex flex-col items-center text-center tilt-card w-full">
-                <i class="fa-solid fa-heart text-gold/50 mb-6 text-xl"></i>
-                <p class="text-sm md:text-base font-serif italic text-charcoal/80 leading-loose">
+        <section class="w-full max-w-3xl px-6 my-32 flex flex-col items-center text-center perspective-container reveal">
+            <div class="glass-card rounded-3xl p-12 md:p-16 flex flex-col items-center text-center tilt-card w-full">
+                <i class="fa-solid fa-heart text-gold/40 mb-8 text-2xl"></i>
+                <p class="text-base md:text-lg font-serif italic text-charcoal/80 leading-[2.2]">
                     We cordially invite your esteemed presence<br>
                     and blessings with family on the auspicious<br>
                     occasion of the marriage of
                 </p>
-                <div class="mt-8 mb-4">
-                    <span class="text-4xl font-script text-gold-dark">Nahla</span>
-                    <span class="text-xs font-sans text-charcoal/40 mx-4 uppercase tracking-widest">and</span>
-                    <span class="text-4xl font-script text-gold-dark">Riswan</span>
+                <div class="mt-10 mb-4 flex items-center justify-center gap-6">
+                    <span class="text-5xl font-script text-gold-dark">Nahla</span>
+                    <span class="text-xs font-sans text-charcoal/30 uppercase tracking-editorial">and</span>
+                    <span class="text-5xl font-script text-gold-dark">Riswan</span>
                 </div>
             </div>
         </section>
 
-        <section class="w-full max-w-3xl px-6 my-24 perspective-container">
-            <div class="glass-card rounded-3xl p-8 md:p-12 tilt-card relative overflow-hidden group">
-                <!-- Subtle internal glass reflection -->
-                <div
-                    class="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none rounded-3xl">
+        <section class="w-full max-w-4xl px-6 my-32 perspective-container reveal">
+            <div class="glass-card rounded-[2.5rem] p-10 md:p-16 tilt-card relative overflow-hidden group">
+                <div class="text-center mb-12">
+                    <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold">The Countdown</h3>
                 </div>
 
-                <div class="text-center mb-8">
-                    <h3 class="text-xs font-sans tracking-[0.3em] text-gold-dark uppercase font-semibold">The Countdown
-                    </h3>
-                </div>
-
-                <div class="grid grid-cols-4 gap-4 md:gap-8 text-center">
+                <div class="grid grid-cols-4 gap-4 md:gap-10 text-center">
                     <div class="flex flex-col items-center justify-center">
-                        <div
-                            class="w-16 h-16 md:w-24 md:h-24 rounded-full border border-gold/20 flex flex-col items-center justify-center mb-3 timer-ring">
-                            <span id="days" class="text-2xl md:text-4xl font-serif text-charcoal">00</span>
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105">
+                            <span id="days" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span
-                            class="text-[9px] md:text-[10px] font-sans tracking-widest text-charcoal/60 uppercase">Days</span>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Days</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full border border-gold/20 flex flex-col items-center justify-center mb-3 timer-ring"
-                            style="animation-delay: 0.2s">
-                            <span id="hours" class="text-2xl md:text-4xl font-serif text-charcoal">00</span>
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.2s">
+                            <span id="hours" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span
-                            class="text-[9px] md:text-[10px] font-sans tracking-widest text-charcoal/60 uppercase">Hours</span>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Hours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full border border-gold/20 flex flex-col items-center justify-center mb-3 timer-ring"
-                            style="animation-delay: 0.4s">
-                            <span id="minutes" class="text-2xl md:text-4xl font-serif text-charcoal">00</span>
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.4s">
+                            <span id="minutes" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span
-                            class="text-[9px] md:text-[10px] font-sans tracking-widest text-charcoal/60 uppercase">Mins</span>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Mins</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-24 md:h-24 rounded-full border border-gold/20 flex flex-col items-center justify-center mb-3 timer-ring"
-                            style="animation-delay: 0.6s">
-                            <span id="seconds" class="text-2xl md:text-4xl font-serif text-gold-dark">00</span>
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.6s">
+                            <span id="seconds" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-gold-dark">00</span>
                         </div>
-                        <span
-                            class="text-[9px] md:text-[10px] font-sans tracking-widest text-gold uppercase font-medium">Secs</span>
+                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold uppercase font-medium">Secs</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="w-full max-w-4xl px-6 my-12 grid md:grid-cols-3 gap-6 perspective-container">
-
+        <section class="w-full max-w-5xl px-6 my-32 grid md:grid-cols-3 gap-8 perspective-container reveal">
             <!-- Date Card -->
-            <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center tilt-card">
-                <i class="fa-regular fa-calendar text-2xl text-gold mb-4"></i>
-                <span class="text-[9px] font-sans tracking-[0.2em] text-charcoal/50 uppercase mb-2">Date</span>
-                <h3 class="text-sm font-serif text-charcoal leading-relaxed mt-2 uppercase tracking-widest">Saturday<br>25 July 2026</h3>
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center tilt-card">
+                <i class="fa-regular fa-calendar text-3xl text-gold/80 mb-6"></i>
+                <span class="text-[9px] font-sans tracking-editorial text-charcoal/40 uppercase mb-3">Date</span>
+                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">Saturday<br>25 July 2026</h3>
             </div>
 
             <!-- Time Card -->
-            <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center tilt-card">
-                <i class="fa-regular fa-clock text-2xl text-gold mb-4"></i>
-                <span class="text-[9px] font-sans tracking-[0.2em] text-charcoal/50 uppercase mb-2">Nikah Time</span>
-                <h3 class="text-sm font-serif text-charcoal leading-relaxed mt-2 uppercase tracking-widest">11:30 AM</h3>
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center tilt-card">
+                <i class="fa-regular fa-clock text-3xl text-gold/80 mb-6"></i>
+                <span class="text-[9px] font-sans tracking-editorial text-charcoal/40 uppercase mb-3">Nikah Time</span>
+                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">11:30 AM</h3>
             </div>
 
             <!-- Venue Card -->
-            <div class="glass-card rounded-2xl p-8 flex flex-col items-center text-center tilt-card">
-                <i class="fa-solid fa-location-dot text-2xl text-gold mb-4"></i>
-                <span class="text-[9px] font-sans tracking-[0.2em] text-charcoal/50 uppercase mb-2">Venue</span>
-                <h3 class="text-sm font-serif text-charcoal leading-relaxed mt-2 uppercase tracking-widest">TMK Regency<br>Vadakkekad</h3>
+            <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center tilt-card">
+                <i class="fa-solid fa-location-dot text-3xl text-gold/80 mb-6"></i>
+                <span class="text-[9px] font-sans tracking-editorial text-charcoal/40 uppercase mb-3">Venue</span>
+                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">TMK Regency<br>Vadakkekad</h3>
             </div>
-
         </section>
 
         <!-- Final Location & Navigation Section -->
-        <footer class="w-full max-w-md mx-auto px-6 mt-8 mb-16 perspective-container">
-            <div
-                class="glass-card rounded-3xl p-8 flex flex-col items-center text-center tilt-card relative overflow-hidden group">
-                <!-- Subtle reflection -->
-                <div
-                    class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none rounded-3xl">
-                </div>
-
-                <h3 class="text-xs font-sans tracking-[0.3em] text-gold-dark uppercase font-semibold mb-6">TMK Regency, Vadakkekad</h3>
+        <footer class="w-full max-w-lg mx-auto px-6 mt-16 mb-24 perspective-container reveal">
+            <div class="glass-card rounded-[3rem] p-12 flex flex-col items-center text-center tilt-card relative overflow-hidden group">
+                <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold mb-8">TMK Regency, Vadakkekad</h3>
 
                 <!-- Aesthetic QR Code Frame -->
-                <div
-                    class="relative p-3 bg-white rounded-2xl shadow-[0_8px_16px_rgba(212,175,55,0.1)] border border-gold/10 mb-6 group-hover:scale-105 transition-transform duration-500">
-                    <!-- Live generated QR Code for Google Maps location -->
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://maps.google.com/?q=TMK+Regency+Vadakkekad&color=2C2A27&bgcolor=FFFFFF&margin=0"
-                        alt="Venue QR Code" class="w-32 h-32 md:w-40 md:h-40 rounded-lg opacity-90" />
-
-                    <!-- Golden Corner Accents -->
-                    <div class="absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 border-gold/60 rounded-tl-lg"></div>
-                    <div class="absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 border-gold/60 rounded-tr-lg">
-                    </div>
-                    <div class="absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 border-gold/60 rounded-bl-lg">
-                    </div>
-                    <div class="absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 border-gold/60 rounded-br-lg">
-                    </div>
+                <div class="relative p-4 bg-white/90 rounded-[2rem] shadow-[0_10px_30px_rgba(212,175,55,0.08)] border border-gold/10 mb-8 transition-transform duration-700 ease-cinematic group-hover:scale-105">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://maps.google.com/?q=TMK+Regency+Vadakkekad&color=2C2A27&bgcolor=FFFFFF&margin=0" alt="Venue QR Code" class="w-36 h-36 md:w-44 md:h-44 rounded-xl opacity-90" />
+                    
+                    <div class="absolute top-2 left-2 w-5 h-5 border-t-[1.5px] border-l-[1.5px] border-gold/60 rounded-tl-xl"></div>
+                    <div class="absolute top-2 right-2 w-5 h-5 border-t-[1.5px] border-r-[1.5px] border-gold/60 rounded-tr-xl"></div>
+                    <div class="absolute bottom-2 left-2 w-5 h-5 border-b-[1.5px] border-l-[1.5px] border-gold/60 rounded-bl-xl"></div>
+                    <div class="absolute bottom-2 right-2 w-5 h-5 border-b-[1.5px] border-r-[1.5px] border-gold/60 rounded-br-xl"></div>
                 </div>
 
-                <p class="text-[9px] font-sans tracking-[0.2em] text-charcoal/50 uppercase mb-8">Scan to Navigate</p>
+                <p class="text-[10px] font-sans tracking-editorial text-charcoal/40 uppercase mb-10">Scan to Navigate</p>
 
                 <!-- Premium Action Button -->
-                <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank" rel="noopener noreferrer"
-                    class="px-8 py-3.5 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white rounded-full font-sans text-[10px] tracking-[0.2em] uppercase shadow-lg shadow-gold/20 hover:shadow-gold/40 hover:-translate-y-1 transition-all duration-300 w-full flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-location-dot text-sm"></i>
-                    Open in Maps
-                </a>
+                <div class="magnetic w-full">
+                    <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank" rel="noopener noreferrer"
+                        class="px-8 py-4 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white rounded-full font-sans text-[11px] tracking-editorial uppercase shadow-xl shadow-gold/20 hover:shadow-gold/40 transition-all duration-700 ease-cinematic w-full flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-location-dot text-sm"></i>
+                        Open in Maps
+                    </a>
+                </div>
             </div>
 
             <!-- Final Thank You Section -->
-            <div class="mt-32 mb-16 flex flex-col items-center text-center">
-                <h2 class="text-sm font-sans tracking-[0.3em] text-gold-dark uppercase mb-6">Thank You</h2>
-                <p class="text-sm md:text-base font-serif italic text-charcoal/70 mb-8 max-w-sm">
+            <div class="mt-40 mb-16 flex flex-col items-center text-center reveal">
+                <h2 class="text-sm font-sans tracking-editorial text-gold-dark uppercase mb-8">Thank You</h2>
+                <p class="text-base md:text-lg font-serif italic text-charcoal/70 mb-10 max-w-sm leading-[2]">
                     "We look forward to celebrating this special day with you."
                 </p>
-                <div class="w-16 h-px bg-gold/40 mb-8"></div>
-                <h3 class="text-4xl font-script text-gold-dark mb-8">Nahla & Riswan</h3>
-                <p class="text-sm font-serif italic text-charcoal/60">
+                <div class="w-20 h-px bg-gold/30 mb-10"></div>
+                <h3 class="text-5xl font-script text-gold-dark mb-10">Nahla & Riswan</h3>
+                <p class="text-sm font-serif italic text-charcoal/50 tracking-widest">
                     "Come bless our beginning"
                 </p>
             </div>
 
             <!-- Minimalist ending stem -->
-            <div class="mt-20 w-px h-16 bg-gradient-to-t from-transparent to-gold/40 mx-auto animate-pulse"></div>
+            <div class="mt-24 w-px h-24 bg-gradient-to-t from-transparent to-gold/30 mx-auto animate-pulse"></div>
         </footer>
     </main>
 
@@ -370,7 +360,6 @@
         let isMuted = false;
         let isPlayPromisePending = false;
 
-        // Load YouTube IFrame API
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -380,19 +369,11 @@
             ytPlayer = new YT.Player('ytplayer', {
                 height: '10',
                 width: '10',
-                videoId: 'iCMiFhA9XdY', // Love Story Orchestral
+                videoId: 'iCMiFhA9XdY', 
                 playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'fs': 0,
-                    'loop': 1,
-                    'playlist': 'iCMiFhA9XdY',
-                    'playsinline': 1
+                    'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'loop': 1, 'playlist': 'iCMiFhA9XdY', 'playsinline': 1
                 },
-                events: {
-                    'onReady': () => { isPlayerReady = true; ytPlayer.setVolume(0); }
-                }
+                events: { 'onReady': () => { isPlayerReady = true; ytPlayer.setVolume(0); } }
             });
         }
 
@@ -402,22 +383,19 @@
             const mainContent = document.getElementById('mainContent');
             const musicController = document.getElementById('musicController');
 
-            // Trigger Audio safely
             if (isPlayerReady && typeof ytPlayer.playVideo === 'function') {
                 isPlayPromisePending = true;
                 try {
                     ytPlayer.unMute();
                     ytPlayer.playVideo();
-                    fadeVolumeIn(45, 2000);
-                    document.getElementById('playIcon').className = "fa-solid fa-pause text-xs";
+                    fadeVolumeIn(45, 2500);
+                    document.getElementById('playIcon').className = "fa-solid fa-pause text-sm";
                 } catch (e) { }
                 setTimeout(() => { isPlayPromisePending = false; }, 500);
             }
 
-            // Animate Gateway out
             gate.classList.add('gate-fade-out');
 
-            // Reveal Main Content & Controller
             setTimeout(() => {
                 gate.style.display = 'none';
                 mainContent.classList.remove('hidden');
@@ -425,10 +403,9 @@
                     mainContent.classList.remove('opacity-0');
                     musicController.style.transform = "scale(1)";
                 }, 100);
-            }, 1000);
+            }, 1200); // Extended transition for cinematic effect
         });
 
-        // Audio controls
         function fadeVolumeIn(targetVol, duration) {
             let currentVol = 0;
             let step = targetVol / (duration / 50);
@@ -446,11 +423,7 @@
             if (isPlayerReady && ytPlayer) {
                 ytPlayer.setVolume(value);
                 const icon = document.getElementById('muteIcon');
-                if (value == 0) {
-                    icon.className = "fa-solid fa-volume-xmark text-xs";
-                } else {
-                    icon.className = "fa-solid fa-volume-high text-xs";
-                }
+                icon.className = value == 0 ? "fa-solid fa-volume-xmark text-sm" : "fa-solid fa-volume-high text-sm";
             }
         }
 
@@ -461,56 +434,105 @@
 
             if (state === YT.PlayerState.PLAYING) {
                 ytPlayer.pauseVideo();
-                icon.className = "fa-solid fa-play ml-0.5 text-xs";
+                icon.className = "fa-solid fa-play ml-0.5 text-sm";
             } else {
                 ytPlayer.playVideo();
-                icon.className = "fa-solid fa-pause text-xs";
+                icon.className = "fa-solid fa-pause text-sm";
+            }
+        }
+
+        function toggleMute() {
+            if (!isPlayerReady) return;
+            isMuted = !isMuted;
+            const icon = document.getElementById('muteIcon');
+            const slider = document.getElementById('volumeSlider');
+            if (isMuted) {
+                ytPlayer.mute();
+                icon.className = "fa-solid fa-volume-xmark text-sm";
+                slider.value = 0;
+            } else {
+                ytPlayer.unMute();
+                icon.className = "fa-solid fa-volume-high text-sm";
+                slider.value = 45;
+                ytPlayer.setVolume(45);
             }
         }
 
         // --- 3. COUNTDOWN TIMER ---
         const targetDate = new Date("2026-07-25T11:30:00").getTime();
-
         setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
+            const distance = targetDate - new Date().getTime();
             if (distance < 0) return;
-
             document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
             document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
             document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // --- 4. 3D GLASS CARD TILT ENGINE ---
-        const tiltElements = document.querySelectorAll('.tilt-card');
+        // --- 4. AWWWARDS-LEVEL UI INTERACTIONS ---
 
-        tiltElements.forEach(el => {
+        // 4a. 3D Glass Card Tilt
+        document.querySelectorAll('.tilt-card').forEach(el => {
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-
-                // Calculate rotation based on cursor position (subtle, premium feel)
-                const rotateX = ((y - centerY) / centerY) * -5;
-                const rotateY = ((x - centerX) / centerX) * 5;
-
-                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                const rotateX = (((e.clientY - rect.top) - (rect.height / 2)) / (rect.height / 2)) * -4;
+                const rotateY = (((e.clientX - rect.left) - (rect.width / 2)) / (rect.width / 2)) * 4;
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
             });
-
             el.addEventListener('mouseleave', () => {
                 el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
             });
         });
 
-        // --- 5. AMBIENT GOLD DUST PARTICLES ---
+        // 4b. Magnetic Elements
+        document.querySelectorAll('.magnetic').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = (e.clientX - rect.left) - rect.width / 2;
+                const y = (e.clientY - rect.top) - rect.height / 2;
+                el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'translate(0px, 0px)';
+            });
+        });
+
+        // 4c. Scroll Reveal Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 4d. Parallax Depth on Scroll
+        const ambientBg = document.querySelector('.ambient-bg');
+        const particleCanvas = document.getElementById('particleCanvas');
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const offset = window.scrollY;
+                    ambientBg.style.transform = `translateY(${offset * 0.4}px)`;
+                    particleCanvas.style.transform = `translateY(${offset * 0.2}px)`;
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        // --- 5. OPTIMIZED AMBIENT PARTICLES ---
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        let isTabActive = true;
+
+        document.addEventListener('visibilitychange', () => {
+            isTabActive = !document.hidden;
+        });
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -524,9 +546,9 @@
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 1.5 + 0.5;
-                this.speedY = -Math.random() * 0.3 - 0.1;
-                this.speedX = Math.random() * 0.2 - 0.1;
-                this.opacity = Math.random() * 0.5 + 0.1;
+                this.speedY = -Math.random() * 0.2 - 0.05;
+                this.speedX = Math.random() * 0.15 - 0.075;
+                this.opacity = Math.random() * 0.4 + 0.1;
             }
             update() {
                 this.y += this.speedY;
@@ -544,16 +566,18 @@
             }
         }
 
-        for (let i = 0; i < 40; i++) particles.push(new Particle());
+        const particleCount = window.innerWidth < 768 ? 20 : 50;
+        for (let i = 0; i < particleCount; i++) particles.push(new Particle());
 
         function animateCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+            if (isTabActive) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+            }
             requestAnimationFrame(animateCanvas);
         }
         animateCanvas();
 
     </script>
 </body>
-
 </html>
