@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nahla & Riswan — Cinematic UI</title>
+    <title>Nahla & Riswan </title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap"
+        rel="stylesheet">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -76,7 +78,7 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: none;
-            box-shadow: 
+            box-shadow:
                 0 10px 20px rgba(168, 134, 71, 0.04),
                 0 20px 40px rgba(168, 134, 71, 0.06),
                 0 40px 80px rgba(168, 134, 71, 0.08),
@@ -98,8 +100,8 @@
             pointer-events: none;
             z-index: 0;
         }
-        
-        .glass-card > * {
+
+        .glass-card>* {
             position: relative;
             z-index: 10;
         }
@@ -125,6 +127,7 @@
             transform: translateY(40px);
             transition: opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1), transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
@@ -132,8 +135,15 @@
 
         /* Subtle floating animations */
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
 
         .animate-float {
@@ -155,10 +165,19 @@
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
-        
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+
         /* Magnetic utility wrapper */
         .magnetic {
             display: inline-block;
@@ -172,27 +191,36 @@
     <canvas id="particleCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 opacity-60"></canvas>
     <div class="fixed inset-0 pointer-events-none ambient-bg z-0 h-[150vh]"></div>
 
-    <div id="gateScreen" class="fixed inset-0 z-50 flex items-center justify-center bg-ivory backdrop-blur-md transition-all duration-[1.5s]">
+    <div id="gateScreen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-ivory backdrop-blur-md transition-all duration-[1.5s]">
         <div class="perspective-container flex flex-col items-center">
             <!-- 3D Interactive Emblem -->
             <div class="magnetic">
-                <button id="openBtn" class="group relative w-32 h-32 rounded-full glass-card flex flex-col items-center justify-center cursor-pointer transition-transform duration-700 ease-cinematic preserve-3d">
-                    <div class="absolute inset-0 rounded-full border border-gold/30 group-hover:border-gold transition-colors duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)]"></div>
+                <button id="openBtn"
+                    class="group relative w-32 h-32 rounded-full glass-card flex flex-col items-center justify-center cursor-pointer transition-transform duration-700 ease-cinematic preserve-3d">
+                    <div
+                        class="absolute inset-0 rounded-full border border-gold/30 group-hover:border-gold transition-colors duration-700 shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                    </div>
                     <h2 class="text-3xl font-script text-gold-dark transform translate-z-10">N & R</h2>
                 </button>
             </div>
-            <p class="mt-8 text-[10px] font-sans tracking-[0.3em] text-gold-dark uppercase animate-pulse">Tap to Enter</p>
+            <p class="mt-8 text-[10px] font-sans tracking-[0.3em] text-gold-dark uppercase animate-pulse">Tap to Enter
+            </p>
         </div>
     </div>
 
-    <div id="musicController" class="fixed bottom-8 right-8 z-40 flex items-center gap-4 glass-card px-5 py-3 rounded-full scale-0 transition-transform duration-[1.2s] ease-cinematic magnetic">
-        <button id="playPauseBtn" onclick="togglePlay()" class="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-dark to-gold text-white flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-105">
+    <div id="musicController"
+        class="fixed bottom-8 right-8 z-40 flex items-center gap-4 glass-card px-5 py-3 rounded-full scale-0 transition-transform duration-[1.2s] ease-cinematic magnetic">
+        <button id="playPauseBtn" onclick="togglePlay()"
+            class="w-10 h-10 rounded-full bg-gradient-to-tr from-gold-dark to-gold text-white flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-500 hover:scale-105">
             <i id="playIcon" class="fa-solid fa-play ml-0.5 text-sm"></i>
         </button>
-        <button id="muteBtn" onclick="toggleMute()" class="w-6 h-6 flex items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors duration-500">
+        <button id="muteBtn" onclick="toggleMute()"
+            class="w-6 h-6 flex items-center justify-center text-charcoal/60 hover:text-charcoal transition-colors duration-500">
             <i id="muteIcon" class="fa-solid fa-volume-high text-sm"></i>
         </button>
-        <input type="range" id="volumeSlider" min="0" max="100" value="45" oninput="changeVolume(this.value)" class="w-20 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark transition-all duration-500">
+        <input type="range" id="volumeSlider" min="0" max="100" value="45" oninput="changeVolume(this.value)"
+            class="w-20 h-1 bg-gold/30 rounded-lg appearance-none cursor-pointer accent-gold-dark transition-all duration-500">
         <div class="h-5 w-[1px] bg-gold/30"></div>
         <div class="flex items-center gap-2">
             <i class="fa-solid fa-music text-gold text-xs animate-bounce"></i>
@@ -204,28 +232,40 @@
         <div id="ytplayer"></div>
     </div>
 
-    <main id="mainContent" class="relative z-10 w-full min-h-screen flex flex-col items-center opacity-0 hidden transition-opacity duration-1000 overflow-hidden pt-24 pb-40">
+    <main id="mainContent"
+        class="relative z-10 w-full min-h-screen flex flex-col items-center opacity-0 hidden transition-opacity duration-1000 overflow-hidden pt-24 pb-40">
 
         <!-- Hero Section -->
-        <section class="w-full max-w-5xl px-6 flex flex-col items-center text-center perspective-container min-h-[90vh] justify-center reveal">
+        <section
+            class="w-full max-w-5xl px-6 flex flex-col items-center text-center perspective-container min-h-[90vh] justify-center reveal">
 
             <!-- Bismillah Calligraphy -->
             <div class="mb-16 animate-float">
-                <p class="font-arabic text-gold-dark mb-6 text-[clamp(2.5rem,6vw,4.5rem)]">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
-                <p class="text-[clamp(9px,2vw,12px)] font-sans tracking-editorial text-charcoal/40 uppercase leading-loose">In the Name of Allah<br>The Most Gracious, The Most Merciful</p>
+                <p class="font-arabic text-gold-dark mb-6 text-[clamp(2.5rem,6vw,4.5rem)]">بِسْمِ اللهِ الرَّحْمٰنِ
+                    الرَّحِيْمِ</p>
+                <p
+                    class="text-[clamp(9px,2vw,12px)] font-sans tracking-editorial text-charcoal/40 uppercase leading-loose">
+                    In the Name of Allah<br>The Most Gracious, The Most Merciful</p>
             </div>
-            
-            <p class="text-[clamp(11px,2vw,14px)] font-sans tracking-[0.25em] text-charcoal/70 uppercase max-w-lg mx-auto leading-[2.5] mb-20">
+
+            <p
+                class="text-[clamp(11px,2vw,14px)] font-sans tracking-[0.25em] text-charcoal/70 uppercase max-w-lg mx-auto leading-[2.5] mb-20">
                 Together with our families,<br>we request the honor of your presence<br>at our wedding celebration.
             </p>
 
             <!-- The Couple -->
             <div class="relative w-full flex flex-col items-center justify-center mb-20">
-                <div class="absolute w-px h-40 bg-gradient-to-b from-transparent via-gold to-transparent -top-20 opacity-40"></div>
+                <div
+                    class="absolute w-px h-40 bg-gradient-to-b from-transparent via-gold to-transparent -top-20 opacity-40">
+                </div>
 
-                <h1 class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">Nahla</h1>
+                <h1
+                    class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">
+                    Nahla</h1>
                 <span class="text-3xl font-serif italic text-gold/60 my-4">&</span>
-                <h1 class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">Riswan</h1>
+                <h1
+                    class="font-script gold-text-gradient drop-shadow-sm leading-none py-2 text-[clamp(5rem,14vw,10rem)]">
+                    Riswan</h1>
             </div>
 
             <div class="mt-16 text-gold/40 animate-bounce">
@@ -234,7 +274,8 @@
         </section>
 
         <!-- Invitation Message Section -->
-        <section class="w-full max-w-3xl px-6 my-32 flex flex-col items-center text-center perspective-container reveal">
+        <section
+            class="w-full max-w-3xl px-6 my-32 flex flex-col items-center text-center perspective-container reveal">
             <div class="glass-card rounded-3xl p-12 md:p-16 flex flex-col items-center text-center tilt-card w-full">
                 <i class="fa-solid fa-heart text-gold/40 mb-8 text-2xl"></i>
                 <p class="text-base md:text-lg font-serif italic text-charcoal/80 leading-[2.2]">
@@ -253,33 +294,42 @@
         <section class="w-full max-w-4xl px-6 my-32 perspective-container reveal">
             <div class="glass-card rounded-[2.5rem] p-10 md:p-16 tilt-card relative overflow-hidden group">
                 <div class="text-center mb-12">
-                    <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold">The Countdown</h3>
+                    <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold">The
+                        Countdown</h3>
                 </div>
 
                 <div class="grid grid-cols-4 gap-4 md:gap-10 text-center">
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105">
+                        <div
+                            class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105">
                             <span id="days" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Days</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Days</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.2s">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
+                            style="animation-delay: 0.2s">
                             <span id="hours" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Hours</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Hours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.4s">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
+                            style="animation-delay: 0.4s">
                             <span id="minutes" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-charcoal">00</span>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Mins</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/50 uppercase">Mins</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105" style="animation-delay: 0.6s">
+                        <div class="w-16 h-16 md:w-28 md:h-28 rounded-full border border-gold/10 flex flex-col items-center justify-center mb-4 timer-ring transition-transform duration-700 ease-cinematic group-hover:scale-105"
+                            style="animation-delay: 0.6s">
                             <span id="seconds" class="text-[clamp(1.5rem,4vw,3rem)] font-serif text-gold-dark">00</span>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold uppercase font-medium">Secs</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold uppercase font-medium">Secs</span>
                     </div>
                 </div>
             </div>
@@ -290,7 +340,8 @@
             <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center tilt-card">
                 <i class="fa-regular fa-calendar text-3xl text-gold/80 mb-6"></i>
                 <span class="text-[9px] font-sans tracking-editorial text-charcoal/40 uppercase mb-3">Date</span>
-                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">Saturday<br>25 July 2026</h3>
+                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">Saturday<br>25
+                    July 2026</h3>
             </div>
 
             <!-- Time Card -->
@@ -304,30 +355,45 @@
             <div class="glass-card rounded-3xl p-10 flex flex-col items-center text-center tilt-card">
                 <i class="fa-solid fa-location-dot text-3xl text-gold/80 mb-6"></i>
                 <span class="text-[9px] font-sans tracking-editorial text-charcoal/40 uppercase mb-3">Venue</span>
-                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">TMK Regency<br>Vadakkekad</h3>
+                <h3 class="text-sm font-serif text-charcoal leading-loose mt-2 uppercase tracking-widest">TMK
+                    Regency<br>Vadakkekad</h3>
             </div>
         </section>
 
         <!-- Final Location & Navigation Section -->
         <footer class="w-full max-w-lg mx-auto px-6 mt-16 mb-24 perspective-container reveal">
-            <div class="glass-card rounded-[3rem] p-12 flex flex-col items-center text-center tilt-card relative overflow-hidden group">
-                <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold mb-8">TMK Regency, Vadakkekad</h3>
+            <div
+                class="glass-card rounded-[3rem] p-12 flex flex-col items-center text-center tilt-card relative overflow-hidden group">
+                <h3 class="text-xs font-sans tracking-editorial text-gold-dark uppercase font-semibold mb-8">TMK
+                    Regency, Vadakkekad</h3>
 
                 <!-- Aesthetic QR Code Frame -->
-                <div class="relative p-4 bg-white/90 rounded-[2rem] shadow-[0_10px_30px_rgba(212,175,55,0.08)] border border-gold/10 mb-8 transition-transform duration-700 ease-cinematic group-hover:scale-105">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://maps.google.com/?q=TMK+Regency+Vadakkekad&color=2C2A27&bgcolor=FFFFFF&margin=0" alt="Venue QR Code" class="w-36 h-36 md:w-44 md:h-44 rounded-xl opacity-90" />
-                    
-                    <div class="absolute top-2 left-2 w-5 h-5 border-t-[1.5px] border-l-[1.5px] border-gold/60 rounded-tl-xl"></div>
-                    <div class="absolute top-2 right-2 w-5 h-5 border-t-[1.5px] border-r-[1.5px] border-gold/60 rounded-tr-xl"></div>
-                    <div class="absolute bottom-2 left-2 w-5 h-5 border-b-[1.5px] border-l-[1.5px] border-gold/60 rounded-bl-xl"></div>
-                    <div class="absolute bottom-2 right-2 w-5 h-5 border-b-[1.5px] border-r-[1.5px] border-gold/60 rounded-br-xl"></div>
+                <div
+                    class="relative p-4 bg-white/90 rounded-[2rem] shadow-[0_10px_30px_rgba(212,175,55,0.08)] border border-gold/10 mb-8 transition-transform duration-700 ease-cinematic group-hover:scale-105">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=https://maps.google.com/?q=TMK+Regency+Vadakkekad&color=2C2A27&bgcolor=FFFFFF&margin=0"
+                        alt="Venue QR Code" class="w-36 h-36 md:w-44 md:h-44 rounded-xl opacity-90" />
+
+                    <div
+                        class="absolute top-2 left-2 w-5 h-5 border-t-[1.5px] border-l-[1.5px] border-gold/60 rounded-tl-xl">
+                    </div>
+                    <div
+                        class="absolute top-2 right-2 w-5 h-5 border-t-[1.5px] border-r-[1.5px] border-gold/60 rounded-tr-xl">
+                    </div>
+                    <div
+                        class="absolute bottom-2 left-2 w-5 h-5 border-b-[1.5px] border-l-[1.5px] border-gold/60 rounded-bl-xl">
+                    </div>
+                    <div
+                        class="absolute bottom-2 right-2 w-5 h-5 border-b-[1.5px] border-r-[1.5px] border-gold/60 rounded-br-xl">
+                    </div>
                 </div>
 
-                <p class="text-[10px] font-sans tracking-editorial text-charcoal/40 uppercase mb-10">Scan to Navigate</p>
+                <p class="text-[10px] font-sans tracking-editorial text-charcoal/40 uppercase mb-10">Scan to Navigate
+                </p>
 
                 <!-- Premium Action Button -->
                 <div class="magnetic w-full">
-                    <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank" rel="noopener noreferrer"
+                    <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank"
+                        rel="noopener noreferrer"
                         class="px-8 py-4 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white rounded-full font-sans text-[11px] tracking-editorial uppercase shadow-xl shadow-gold/20 hover:shadow-gold/40 transition-all duration-700 ease-cinematic w-full flex items-center justify-center gap-3">
                         <i class="fa-solid fa-location-dot text-sm"></i>
                         Open in Maps
@@ -369,11 +435,18 @@
             ytPlayer = new YT.Player('ytplayer', {
                 height: '10',
                 width: '10',
-                videoId: 'iCMiFhA9XdY', 
+                videoId: 'iCMiFhA9XdY',
                 playerVars: {
-                    'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'loop': 1, 'playlist': 'iCMiFhA9XdY', 'playsinline': 1
+                    'autoplay': 1, 'controls': 0, 'disablekb': 1, 'fs': 0, 'loop': 1, 'playlist': 'iCMiFhA9XdY', 'playsinline': 1
                 },
-                events: { 'onReady': () => { isPlayerReady = true; ytPlayer.setVolume(0); } }
+                events: { 
+                    'onReady': () => { 
+                        isPlayerReady = true; 
+                        ytPlayer.setVolume(45); 
+                        ytPlayer.playVideo();
+                        document.getElementById('playIcon').className = "fa-solid fa-pause text-sm";
+                    } 
+                }
             });
         }
 
@@ -580,4 +653,5 @@
 
     </script>
 </body>
+
 </html>
