@@ -187,6 +187,102 @@
             display: inline-block;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        /* Flip Clock Styles */
+        .flip-unit {
+            position: relative;
+            width: 50px;
+            height: 70px;
+            font-size: 32px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            border-radius: 6px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            background-color: #2C2A27;
+            color: #FAF7F2;
+            perspective: 800px;
+        }
+        @media (min-width: 768px) {
+            .flip-unit {
+                width: 90px;
+                height: 120px;
+                font-size: 64px;
+                border-radius: 8px;
+            }
+        }
+        .flip-unit.gold-theme {
+            background-color: #A88647;
+            color: #FAF7F2;
+        }
+        .flip-unit::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: rgba(250, 247, 242, 0.2);
+            z-index: 5;
+            transform: translateY(-50%);
+        }
+        .flip-half {
+            width: 100%;
+            height: 50%;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            background-color: inherit;
+            color: inherit;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
+        .flip-half > span {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 200%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+        }
+        .flip-top {
+            top: 0;
+            transform-origin: bottom;
+            border-top-left-radius: inherit;
+            border-top-right-radius: inherit;
+        }
+        .flip-top > span {
+            top: 0;
+        }
+        .flip-bottom {
+            bottom: 0;
+            transform-origin: top;
+            border-bottom-left-radius: inherit;
+            border-bottom-right-radius: inherit;
+        }
+        .flip-bottom > span {
+            bottom: 0;
+        }
+
+        .flip-card-top {
+            z-index: 10;
+            animation: flipTop 0.4s cubic-bezier(0.37, 0, 0.63, 1) forwards;
+        }
+        .flip-card-bottom {
+            z-index: 10;
+            transform: rotateX(90deg);
+            animation: flipBottom 0.4s cubic-bezier(0.37, 0, 0.63, 1) 0.4s forwards;
+        }
+
+        @keyframes flipTop {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-90deg); }
+        }
+        @keyframes flipBottom {
+            0% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
     </style>
 </head>
 
@@ -306,19 +402,31 @@
 
                 <div class="grid grid-cols-4 gap-2 md:gap-8 text-center pt-8">
                     <div class="flex flex-col items-center justify-center">
-                        <div id="days" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <div id="days" class="flip-unit mb-6" data-val="">
+                            <div class="flip-half flip-top static-top"><span>00</span></div>
+                            <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
+                        </div>
                         <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Days</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div id="hours" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <div id="hours" class="flip-unit mb-6" data-val="">
+                            <div class="flip-half flip-top static-top"><span>00</span></div>
+                            <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
+                        </div>
                         <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Hours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div id="minutes" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <div id="minutes" class="flip-unit mb-6" data-val="">
+                            <div class="flip-half flip-top static-top"><span>00</span></div>
+                            <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
+                        </div>
                         <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Mins</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
-                        <div id="seconds" class="flex gap-1 md:gap-2 mb-6" data-val=""></div>
+                        <div id="seconds" class="flip-unit gold-theme mb-6" data-val="">
+                            <div class="flip-half flip-top static-top"><span>00</span></div>
+                            <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
+                        </div>
                         <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold-dark uppercase font-semibold">Secs</span>
                     </div>
                 </div>
@@ -485,41 +593,45 @@
         // --- 3. COUNTDOWN TIMER ---
         const targetDate = new Date("2026-07-25T11:30:00").getTime();
 
-        function createDigitCard(char, isSecs) {
-            const bgColor = isSecs ? "bg-gold-dark" : "bg-charcoal";
-            const textColor = isSecs ? "text-ivory" : "text-ivory";
-            const lineColor = isSecs ? "bg-ivory/30" : "bg-ivory/20";
-            
-            return `
-                <div class="relative w-8 h-12 md:w-16 md:h-24 rounded-lg flex items-center justify-center shadow-lg ${bgColor} ${textColor}">
-                    <!-- The string -->
-                    <div class="absolute bottom-full left-1/2 w-px h-6 md:h-10 bg-charcoal/30"></div>
-                    <!-- The hole -->
-                    <div class="absolute top-1 md:top-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ivory shadow-inner"></div>
-                    <!-- The split line -->
-                    <div class="absolute top-1/2 left-0 w-full h-[1px] md:h-[2px] ${lineColor} z-20"></div>
-                    <!-- The digit -->
-                    <span class="text-2xl md:text-6xl font-serif z-10">${char}</span>
-                </div>
-            `;
-        }
-
-        function updateDigitDisplay(id, number, isSecs = false) {
-            const str = number.toString().padStart(2, '0');
+        function updateFlipTimer(id, number) {
+            const strValue = number.toString().padStart(2, '0');
             const el = document.getElementById(id);
-            if (el.dataset.val !== str) {
-                el.dataset.val = str;
-                el.innerHTML = str.split('').map(c => createDigitCard(c, isSecs)).join('');
-            }
+            const currentValue = el.dataset.val || strValue;
+            
+            if (currentValue === strValue && el.dataset.val) return;
+            el.dataset.val = strValue;
+            
+            const staticTop = el.querySelector('.static-top span');
+            const staticBottom = el.querySelector('.static-bottom span');
+            
+            if (staticTop) staticTop.innerText = strValue;
+            if (staticBottom) staticBottom.innerText = currentValue;
+            
+            const topFlip = document.createElement('div');
+            topFlip.className = 'flip-half flip-top flip-card-top';
+            topFlip.innerHTML = `<span>${currentValue}</span>`;
+            
+            const bottomFlip = document.createElement('div');
+            bottomFlip.className = 'flip-half flip-bottom flip-card-bottom';
+            bottomFlip.innerHTML = `<span>${strValue}</span>`;
+            
+            el.appendChild(topFlip);
+            el.appendChild(bottomFlip);
+            
+            setTimeout(() => {
+                if (topFlip.parentNode) topFlip.parentNode.removeChild(topFlip);
+                if (bottomFlip.parentNode) bottomFlip.parentNode.removeChild(bottomFlip);
+                if (staticBottom) staticBottom.innerText = strValue;
+            }, 850);
         }
 
         setInterval(() => {
             const distance = targetDate - new Date().getTime();
             if (distance < 0) return;
-            updateDigitDisplay("days", Math.floor(distance / (1000 * 60 * 60 * 24)));
-            updateDigitDisplay("hours", Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
-            updateDigitDisplay("minutes", Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-            updateDigitDisplay("seconds", Math.floor((distance % (1000 * 60)) / 1000), true);
+            updateFlipTimer("days", Math.floor(distance / (1000 * 60 * 60 * 24)));
+            updateFlipTimer("hours", Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+            updateFlipTimer("minutes", Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+            updateFlipTimer("seconds", Math.floor((distance % (1000 * 60)) / 1000));
         }, 1000);
 
         // --- 4. AWWWARDS-LEVEL UI INTERACTIONS ---
