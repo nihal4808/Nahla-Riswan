@@ -197,11 +197,12 @@
             font-family: 'Montserrat', system-ui, sans-serif;
             font-weight: 800;
             border-radius: 6px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
             background-color: #2C2A27;
             color: #FAF7F2;
             perspective: 800px;
         }
+
         @media (min-width: 768px) {
             .flip-unit {
                 width: 90px;
@@ -210,10 +211,12 @@
                 border-radius: 8px;
             }
         }
+
         .flip-unit.gold-theme {
             background-color: #A88647;
             color: #FAF7F2;
         }
+
         .flip-unit::after {
             content: '';
             position: absolute;
@@ -225,6 +228,7 @@
             z-index: 5;
             transform: translateY(-50%);
         }
+
         .flip-half {
             width: 100%;
             height: 50%;
@@ -236,7 +240,8 @@
             backface-visibility: hidden;
             transform-style: preserve-3d;
         }
-        .flip-half > span {
+
+        .flip-half>span {
             position: absolute;
             left: 0;
             width: 100%;
@@ -246,22 +251,26 @@
             align-items: center;
             line-height: 1;
         }
+
         .flip-top {
             top: 0;
             transform-origin: bottom;
             border-top-left-radius: inherit;
             border-top-right-radius: inherit;
         }
-        .flip-top > span {
+
+        .flip-top>span {
             top: 0;
         }
+
         .flip-bottom {
             bottom: 0;
             transform-origin: top;
             border-bottom-left-radius: inherit;
             border-bottom-right-radius: inherit;
         }
-        .flip-bottom > span {
+
+        .flip-bottom>span {
             bottom: 0;
         }
 
@@ -269,6 +278,7 @@
             z-index: 10;
             animation: flipTop 0.4s cubic-bezier(0.37, 0, 0.63, 1) forwards;
         }
+
         .flip-card-bottom {
             z-index: 10;
             transform: rotateX(90deg);
@@ -276,12 +286,23 @@
         }
 
         @keyframes flipTop {
-            0% { transform: rotateX(0deg); }
-            100% { transform: rotateX(-90deg); }
+            0% {
+                transform: rotateX(0deg);
+            }
+
+            100% {
+                transform: rotateX(-90deg);
+            }
         }
+
         @keyframes flipBottom {
-            0% { transform: rotateX(90deg); }
-            100% { transform: rotateX(0deg); }
+            0% {
+                transform: rotateX(90deg);
+            }
+
+            100% {
+                transform: rotateX(0deg);
+            }
         }
     </style>
 </head>
@@ -326,7 +347,8 @@
             <i class="fa-solid fa-music text-gold text-xs animate-bounce"></i>
         </div>
         <button onclick="document.getElementById('musicController').style.display='none'"
-            class="ml-1 w-5 h-5 flex items-center justify-center text-charcoal/30 hover:text-charcoal/60 transition-colors duration-300" title="Hide">
+            class="ml-1 w-5 h-5 flex items-center justify-center text-charcoal/30 hover:text-charcoal/60 transition-colors duration-300"
+            title="Hide">
             <i class="fa-solid fa-times text-xs"></i>
         </button>
     </div>
@@ -378,10 +400,10 @@
         <!-- Invitation Message Section -->
         <section
             class="w-full max-w-3xl px-6 my-32 flex flex-col items-center text-center perspective-container reveal">
-            
+
             <!-- Couple Photo -->
             <div class="w-full flex justify-center mb-10">
-                <img src="./assets/photo.png" alt="Nahla & Riswan" class="w-64 md:w-80 h-auto object-contain">
+                <img src="./assets/photo1.png" alt="Nahla & Riswan" class="w-64 md:w-80 h-auto object-contain">
             </div>
 
             <div class="glass-card rounded-3xl p-12 md:p-16 flex flex-col items-center text-center tilt-card w-full">
@@ -412,28 +434,32 @@
                             <div class="flip-half flip-top static-top"><span>00</span></div>
                             <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Days</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Days</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
                         <div id="hours" class="flip-unit mb-6" data-val="">
                             <div class="flip-half flip-top static-top"><span>00</span></div>
                             <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Hours</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Hours</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
                         <div id="minutes" class="flip-unit mb-6" data-val="">
                             <div class="flip-half flip-top static-top"><span>00</span></div>
                             <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Mins</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-charcoal/60 uppercase">Mins</span>
                     </div>
                     <div class="flex flex-col items-center justify-center">
                         <div id="seconds" class="flip-unit gold-theme mb-6" data-val="">
                             <div class="flip-half flip-top static-top"><span>00</span></div>
                             <div class="flip-half flip-bottom static-bottom"><span>00</span></div>
                         </div>
-                        <span class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold-dark uppercase font-semibold">Secs</span>
+                        <span
+                            class="text-[9px] md:text-[11px] font-sans tracking-editorial text-gold-dark uppercase font-semibold">Secs</span>
                     </div>
                 </div>
             </div>
@@ -495,8 +521,7 @@
                 </p>
 
                 <!-- Premium Action Button -->
-                <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank"
-                    rel="noopener noreferrer"
+                <a href="https://maps.google.com/?q=TMK+Regency+Vadakkekad" target="_blank" rel="noopener noreferrer"
                     class="px-8 py-4 bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-white rounded-full font-sans text-[11px] tracking-editorial uppercase shadow-xl shadow-gold/20 hover:shadow-gold/40 transition-all duration-700 ease-cinematic w-full flex items-center justify-center gap-3">
                     <i class="fa-solid fa-location-dot text-sm"></i>
                     Open in Maps
@@ -509,10 +534,12 @@
                 <p class="text-base md:text-lg font-serif italic text-charcoal/70 mb-10 max-w-sm leading-[2]">
                     "We look forward to celebrating this special day with you."
                 </p>
-                
+
                 <!-- Couple Line Art -->
-                <div class="w-full flex justify-center mb-10 transition-transform duration-1000 ease-cinematic hover:scale-105">
-                    <img src="./assets/couple-line-art.png" alt="Couple" class="w-40 md:w-56 opacity-80 mix-blend-multiply">
+                <div
+                    class="w-full flex justify-center mb-10 transition-transform duration-1000 ease-cinematic hover:scale-105">
+                    <img src="./assets/couple-line-art.png" alt="Couple"
+                        class="w-40 md:w-56 opacity-80 mix-blend-multiply">
                 </div>
 
                 <div class="w-20 h-px bg-gold/30 mb-10"></div>
@@ -609,27 +636,27 @@
             const strValue = number.toString().padStart(2, '0');
             const el = document.getElementById(id);
             const currentValue = el.dataset.val || strValue;
-            
+
             if (currentValue === strValue && el.dataset.val) return;
             el.dataset.val = strValue;
-            
+
             const staticTop = el.querySelector('.static-top span');
             const staticBottom = el.querySelector('.static-bottom span');
-            
+
             if (staticTop) staticTop.innerText = strValue;
             if (staticBottom) staticBottom.innerText = currentValue;
-            
+
             const topFlip = document.createElement('div');
             topFlip.className = 'flip-half flip-top flip-card-top';
             topFlip.innerHTML = `<span>${currentValue}</span>`;
-            
+
             const bottomFlip = document.createElement('div');
             bottomFlip.className = 'flip-half flip-bottom flip-card-bottom';
             bottomFlip.innerHTML = `<span>${strValue}</span>`;
-            
+
             el.appendChild(topFlip);
             el.appendChild(bottomFlip);
-            
+
             setTimeout(() => {
                 if (topFlip.parentNode) topFlip.parentNode.removeChild(topFlip);
                 if (bottomFlip.parentNode) bottomFlip.parentNode.removeChild(bottomFlip);
@@ -752,12 +779,12 @@
                 ctx.moveTo(0, 0);
                 ctx.bezierCurveTo(-10, -10, -10, 10, 0, 15);
                 ctx.bezierCurveTo(10, 10, 10, -10, 0, 0);
-                
+
                 // Add a gradient for the petal
                 let gradient = ctx.createLinearGradient(-10, -10, 10, 15);
                 gradient.addColorStop(0, `rgba(220, 50, 80, ${this.opacity})`);
                 gradient.addColorStop(1, `rgba(180, 20, 50, ${this.opacity})`);
-                
+
                 ctx.fillStyle = gradient;
                 ctx.fill();
                 ctx.restore();
