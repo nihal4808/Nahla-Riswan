@@ -313,7 +313,7 @@
     <div class="fixed inset-0 pointer-events-none ambient-bg z-0 h-[150vh]"></div>
 
     <div id="gateScreen"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-sm transition-all duration-[1.5s]">
+        class="fixed inset-0 z-50 flex items-center justify-center bg-transparent backdrop-blur-sm transition-all duration-[1.5s] cursor-pointer">
         <div class="perspective-container flex flex-col items-center">
             <!-- 3D Interactive Emblem -->
             <div class="magnetic">
@@ -663,7 +663,7 @@
         let isMuted = false;
 
         // --- 2. INTERACTIVE GATEWAY REVEAL ---
-        document.getElementById('openBtn').addEventListener('click', () => {
+        document.getElementById('gateScreen').addEventListener('click', () => {
             const gate = document.getElementById('gateScreen');
             const mainContent = document.getElementById('mainContent');
             const musicController = document.getElementById('musicController');
